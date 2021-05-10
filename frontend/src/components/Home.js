@@ -1,7 +1,44 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
+import { AuthContext } from "../context/AuthContext";
+
+function AppHeaderAuthorized(){
+  return(
+    <div className="header">
+      <div className="navbar navbar-light bg-header">
+        <div className="container-fluid">
+          <h5 className="header-title">
+            Travel App
+          </h5>
+          <div className="d-flex">
+              <button className="btn btn-primary border-0 shadow-none">Log out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function AppHeaderUnauthorized(){
+  return(
+    <div className="header">
+      <div className="navbar navbar-light bg-header">
+        <div className="container-fluid">
+          <h5 className="header-title">
+            Travel App
+          </h5>
+          <div className="d-flex">
+              <button className="btn btn-primary border-0 shadow-none">Sign in</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Home(){
+
+    const currentUser = useContext(AuthContext)
     const [viewport, setViewport] = useState({
         width: "100vw",
         height: "100vh",
@@ -13,18 +50,7 @@ export default function Home(){
 
     return(
         <>
-      <div className="header">
-      <div className="navbar navbar-light bg-header">
-        <div className="container-fluid">
-          <h5 className="header-title">
-            Travel App
-          </h5>
-          <div className="d-flex">
-              <button className="btn btn-primary shadow-none">Sign in</button>
-          </div>
-        </div>
-      </div>
-    </div>
+      {currentUser ? <AppHeaderAuthorized/> : <AppHeaderUnauthorized/>} 
    <div className="map">
    <ReactMapGL
     {...viewport}
