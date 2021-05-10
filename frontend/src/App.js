@@ -15,6 +15,21 @@ function App() {
 
   return (
     <div className="App">
+
+      <div className="header">
+        <div className="navbar navbar-light bg-header">
+          <div className="container-fluid">
+            <h5 className="header-title">
+              Travel App
+            </h5>
+            <div className="d-flex">
+                <button className="btn btn-primary shadow-none">Sign in</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+     <div className="map">
      <ReactMapGL
       {...viewport}
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX}
@@ -31,6 +46,7 @@ function App() {
           <div>You are here.</div>
         </Popup>}
       </ReactMapGL>
+     </div>
     </div>
   );
 }
