@@ -16,6 +16,10 @@
   font-weight: 500;
 }
 
+.headerIcon{
+  color: #f06292;
+}
+
 body{
   font-family: 'Poppins', sans-serif;
   background-color: #f5f5f5;

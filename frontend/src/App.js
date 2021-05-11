@@ -4,11 +4,8 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Home from "./components/Home";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
-import { AuthContext } from './context/AuthContext';
 
 function App() {
-  const currentUser = useContext(AuthContext)
-
   return (
     <Router>
       <Route exact path = "/" component = {Home}/>

@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
-import { AuthContext } from "../context/AuthContext";
+import  {AuthContext}  from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function AppHeaderAuthorized(){
   return(
     <div className="header">
       <div className="navbar navbar-light bg-header">
-        <div className="container-fluid">
+        <div className="container-fluid d-flex align-items-center">
           <h5 className="header-title">
-            Travel App
+            My Travel Diary
           </h5>
-          <div className="d-flex">
-              <button className="btn btn-primary border-0 shadow-none">Log out</button>
-          </div>
+            <button className="btn btn-primary border-0 shadow-none">Log out</button>
         </div>
       </div>
     </div>
@@ -23,13 +22,13 @@ function AppHeaderUnauthorized(){
   return(
     <div className="header">
       <div className="navbar navbar-light bg-header">
-        <div className="container-fluid">
+        <div className="container-fluid d-flex align-items-center">
           <h5 className="header-title">
-            Travel App
+            My Travel Diary
           </h5>
-          <div className="d-flex">
-              <button className="btn btn-primary border-0 shadow-none">Sign in</button>
-          </div>
+          <Link to="/login">
+            <button className="btn btn-primary border-0 shadow-none">Sign in</button>
+          </Link>
         </div>
       </div>
     </div>
@@ -38,7 +37,7 @@ function AppHeaderUnauthorized(){
 
 export default function Home(){
 
-    const currentUser = useContext(AuthContext)
+    const {currentUser, setCurrentUser} = useContext(AuthContext)
     const [viewport, setViewport] = useState({
         width: "100vw",
         height: "100vh",
@@ -64,7 +63,7 @@ export default function Home(){
         closeButton={true}
         closeOnClick={false}
         onClose={() => togglePopup(false)}
-        anchor="top" >
+        anchor="left" >
         <div>You are here.</div>
       </Popup>}
     </ReactMapGL>

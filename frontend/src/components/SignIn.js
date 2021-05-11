@@ -4,9 +4,9 @@ import {Link} from "react-router-dom";
 export default function SignIn(){
     return(
         <div className="container">
-            <div className="mx-2 my-4 mx-sm-4">
-                <div className="card p-3 bg-white rounded-sm w-100">
-                    <h4 className="fs2 mx-auto header-title">Sign in</h4>
+            <div className="d-flex justify-content-center">
+                <div className="card p-3 m-4 bg-white rounded-sm col-12 col-sm-6">
+                    <h4 className="fs2 mx-auto">Sign in</h4>
                     <div className="mt-3">
                     <form>
                         <div class="mb-3">
@@ -19,8 +19,11 @@ export default function SignIn(){
                             <input type="password" class="form-control" id="exampleInputPassword1" aria-describedby="passwordHelp"/>
                             <div id="emailHelp" class="form-text">Enter your password</div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Continue</button>
-
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1"/>
+                            <label class="form-check-label" for="exampleCheck1">Remember me</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary shadow-none outline-none border-0">Continue</button>
                         <div className="small text-muted mt-3">Don't have an account?{" "}
                             <Link to="/register" className="text-primary">
                                 Sign up

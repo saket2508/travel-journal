@@ -2,22 +2,23 @@ import React, {useState, useEffect, createContext} from "react"
 
 export const AuthContext = createContext()
 
-export default ({ children }) => {
+function AuthProvider({ children }){
     const [ currentUser, setCurrentUser ] = useState(null)
 
     useEffect(() => {
-        const userSaved = localStorage.getItem('user')
-        if(userSaved){
-            setCurrentUser(userSaved)
+        if(localStorage.getItem('user')){
+            setCurrentUser(localStorage.getItem('user'))
         }
     }, [])
 
     return(
         <div>
-            <AuthContext.Provider value = {currentUser}>
+            <AuthContext.Provider value = {{currentUser, setCurrentUser}}>
                     { children }
             </AuthContext.Provider>
         </div>
     )
 
 }
+
+export default AuthProvider
