@@ -8,6 +8,17 @@
   position: relative;
 }
 
+.card-map{
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.place, .visited, .description{
+  margin-top: 0.5rem;
+}
+
 .bg-header{
   background: rgba(255, 255, 255, 0.7);
 }

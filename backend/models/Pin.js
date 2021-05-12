@@ -5,19 +5,20 @@ const PinSchema = new mongoose.Schema({
         type:String,
         required: true
     },
-    title:{
+    place:{
         type: String,
         required: true,
     },
-    description:{
-        type: String,
-        required: true
+    visited :{
+        type: Boolean,
+        default:false,
+        required
     },
-    rating:{
-        type: Number,
-        required: true,
-        min: 0,
-        max: 5
+    memories:{
+        type: String,
+    },
+    dateOfVisit:{
+        type: Date, 
     },
     long:{
         type: Number,
