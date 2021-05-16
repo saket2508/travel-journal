@@ -4,32 +4,19 @@ import  {AuthContext}  from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import RoomIcon from '@material-ui/icons/Room';
 
-function AppHeaderAuthorized(){
+function AppHeader(props){
+  const {currentUser, SignOut} = props
   return(
     <div className="header">
       <div className="navbar navbar-light bg-header">
         <div className="container-fluid d-flex align-items-center">
-          <h5 className="header-title">
+          <h5 className="navbar-brand header-title">
             My Travel Diary
           </h5>
-            <button className="btn btn-primary border-0 shadow-none">Log out</button>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function AppHeaderUnauthorized(){
-  return(
-    <div className="header">
-      <div className="navbar navbar-light bg-header">
-        <div className="container-fluid d-flex align-items-center">
-          <h5 className="header-title">
-            My Travel Diary
-          </h5>
-          <Link to="/login">
+          {currentUser ? <button onClick={() => SignOut()} className="btn btn-primary border-0 shadow-none">Log out</button>
+          :  <Link to="/login">
             <button className="btn btn-primary border-0 shadow-none">Sign in</button>
-          </Link>
+          </Link>}
         </div>
       </div>
     </div>
@@ -63,9 +50,14 @@ export default function Home(){
       });
     };
 
+    const SignOut = () => {
+      localStorage.removeItem('user')
+      setCurrentUser(null);
+    }
+
     return(
         <>
-      {currentUser ? <AppHeaderAuthorized/> : <AppHeaderUnauthorized/>} 
+      <AppHeader currentUser={currentUser} SignOut={SignOut}/>
    <div className="map">
    <ReactMapGL
     {...viewport}
@@ -88,7 +80,7 @@ export default function Home(){
         closeButton={true}
         closeOnClick={false}
         onClose={() => togglePopup(false)}
-        anchor="left" >
+        anchor="bottom" >
         <div className="card-map">
           <div className="place">
             <div className="small">Place</div>

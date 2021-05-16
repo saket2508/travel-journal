@@ -16,12 +16,12 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
 
-    //save user and respond
+    //save user and send response
     const user = await newUser.save()
-    res.status(200).json({user: user._id, message:"user created successfully", success: true})
+      res.status(200).json({user: user.username, message:"user created successfully", success: true})
     } catch (err) {
-    console.log(err)
-    res.status(500).json({error: err, message:"error creating user", success: false})
+      console.log(err)
+      res.status(500).json({error: err, message:"error creating user", success: false})
   }
 });
 
@@ -30,17 +30,17 @@ router.post("/login", async (req, res) => {
   try {
     //find user
     const user = await User.findOne({ username: req.body.username })
-    !user && res.status(400).json({message: "Wrong username or password", success: false})
+    !user && res.status(200).json({message: "Wrong username or password", success: false})
 
     //validate password
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.password
     )
-    !validPassword && res.status(400).json({message: "Wrong username or password", success: false})
+    !validPassword && res.status(200).json({message: "Wrong username or password", success: false})
 
     //send response
-    res.status(200).json({ user:{_id: user._id, username: user.username}, success: true })
+    res.status(200).json({ user:user.username, message:"User signed in", success: true })
   } catch (err) {
     res.status(500).json(err)
   }

@@ -41,3 +41,37 @@ body{
   height: 100vh;
   width: 100vw;
 }
+
+.text-primary{
+  color: #3f51b5  !important;
+}
+
+.text-heading{
+  color: #303f9f
+}
+
+.btn-primary{
+  background-color: #3f51b5!important;
+}
+
+.btn-primary:hover{
+  background-color: #303f9f!important;
+}
+
+.bold{
+  font-weight: 600;
+}
+
+.btn-disabled{
+  background-color: #7986cb!important;
+  color: white;
+}
+
+.form-check-input:checked {
+  background-color: #3f51b5;
+  border-color: #3f51b5;
+}
+
+.form-control:focus{
+  border: 1px solid #ced4da;
+}

@@ -12,7 +12,7 @@ const PinSchema = new mongoose.Schema({
     visited :{
         type: Boolean,
         default:false,
-        required
+        required: true,
     },
     memories:{
         type: String,
