@@ -1,24 +1,16 @@
 const mongoose = require("mongoose");
 
 const PinSchema = new mongoose.Schema({
-    username: {
-        type:String,
-        required: true
+    user:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'User'
     },
     place:{
         type: String,
         required: true,
     },
-    visited :{
-        type: Boolean,
-        default:false,
-        required: true,
-    },
     memories:{
         type: String,
-    },
-    dateOfVisit:{
-        type: Date, 
     },
     long:{
         type: Number,

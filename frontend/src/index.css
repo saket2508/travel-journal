@@ -63,7 +63,7 @@ body{
 }
 
 .btn-disabled{
-  background-color: #7986cb!important;
+  background-color: #5c6bc0 !important;
   color: white;
 }
 
@@ -74,4 +74,23 @@ body{
 
 .form-control:focus{
   border: 1px solid #ced4da;
+}
+
+.semibold-text{
+  font-weight: 400;
+}
+
+.inline-heading{
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.label{
+  font-weight: 500;
+}
+
+.wrap-input{
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: row;
 }

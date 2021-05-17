@@ -42,13 +42,11 @@ export default function SignIn(props){
         }).then(res => res.data)
         .then(data => {
             const {user, message, success} = data
-    
-            console.log(message, success)
             if(success===true){
                 setAlertMessage({'message':message, 'success':success})
                 setCurrentUser(user)
                 if(saveCred===true){
-                    localStorage.setItem('user', user)
+                    localStorage.setItem('uid', user)
                 }
             
                 timerID = setTimeout(() => {
@@ -61,7 +59,6 @@ export default function SignIn(props){
                 setLoading(false)
             }
         }).catch(err => {
-            console.log(err.message)
             setLoading(false)
             setAlertMessage({'message':'Could not connect to server. Try again later.', 'success':false})
         })
@@ -72,7 +69,7 @@ export default function SignIn(props){
         <div className="container">
             <div className="d-flex justify-content-center">
                 <div className="card p-4 m-4 bg-white rounded-sm col-12 col-sm-10 col-md-6">
-                    <h3 className="fs2 mx-auto text-heading">Log in to continue</h3>
+                    <h5 className="fs2 mx-auto">Log in to continue</h5>
 
                     {alertMessage && <div className="mt-1 col-12 mx-auto">
                         {alertMessage.success===true ? <div>

@@ -6,8 +6,8 @@ function AuthProvider({ children }){
     const [ currentUser, setCurrentUser ] = useState(null)
 
     useEffect(() => {
-        if(localStorage.getItem('user')){
-            setCurrentUser(localStorage.getItem('user'))
+        if(localStorage.getItem('uid')){
+            setCurrentUser(localStorage.getItem('uid'))
         }
     }, [])
 

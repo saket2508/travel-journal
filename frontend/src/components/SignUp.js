@@ -42,7 +42,7 @@ export default function SignUp(props){
                 setAlertMessage({'message':message, 'success':success})
 
                 setCurrentUser(user)
-                localStorage.setItem('user', user)
+                localStorage.setItem('uid', user)
                 
                 timer = setTimeout(() => {
                     props.history.push('/');
@@ -53,7 +53,6 @@ export default function SignUp(props){
                 setLoading(false)
             }
         }).catch(err => {
-            console.log(err.message)
             setLoading(false)
             setAlertMessage({'message':'Could not connect to server. Try again later.', 'success':false})
         })
@@ -63,7 +62,7 @@ export default function SignUp(props){
         <div className="container">
             <div className="d-flex justify-content-center">
                 <div className="card p-4 m-4 bg-white rounded-sm col-12 col-sm-6 justify-content-center">
-                    <h3 className="fs2 mx-auto text-heading">Create an account today</h3>
+                    <h5 className="fs2 mx-auto">Create an account today</h5>
 
                     {alertMessage && <div className="mt-1 col-12 mx-auto">
                         {alertMessage.success===true ? <div>
