@@ -95,8 +95,8 @@ export default function SignUp(props){
                             <input type="password" class="form-control shadow-none outline-none" id="passwordInput" name="password" aria-describedby="passwordHelp" onChange={event => handleInput(event)} required/>
                             <div id="emailHelp" class="form-text">Must be 8-20 characters long</div>
                         </div>
-                         {loading===false ? <button type="submit" class="btn btn-primary shadow-none outline-none border-0">Sign up</button>
-                            : <button className="btn shadow-none text-white outline-none border-0 btn-disabled" disabled>Loading...</button>
+                         {loading===false ? <button type="submit" class="btn btn-primary shadow-none outline-none border-0">SIGN UP</button>
+                            : <button className="btn btn-primary shadow-none text-white outline-none border-0" disabled>LOADING...</button>
                         }
 
                         <div className="small text-muted mt-3">Already have an account?{" "}
