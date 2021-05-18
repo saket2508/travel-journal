@@ -22,6 +22,8 @@ mongoose
 
 app.use("/api/users", userRoutes)
 app.use("/api/pins", pinRoutes)
+
+app.get('/', (req, res) => { res.send('Backend server running')})
     
 app.listen(port, () => {
     console.log('Backend server is running.')
