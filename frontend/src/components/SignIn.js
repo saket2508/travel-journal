@@ -102,7 +102,7 @@ export default function SignIn(props){
                             <label class="form-check-label" for="exampleCheck1">Remember me</label>
                         </div>
                         {loading===false ? <button type="submit" class="btn btn-primary shadow-none outline-none border-0">Continue</button>
-                            : <button className="btn shadow-none text-white outline-none border-0 btn-disabled disabled">Loading...</button>
+                            : <button className="btn shadow-none text-white outline-none border-0 btn-disabled" disabled>Loading...</button>
                         }
                         <div className="small text-muted mt-3">Don't have an account?{" "}
                             <Link to="/register" className="text-primary">

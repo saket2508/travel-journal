@@ -1,23 +1,27 @@
 import React, { useState, useEffect, useContext } from "react";
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import  {AuthContext}  from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import RoomIcon from '@material-ui/icons/Room';
 import Axios from "axios";
 
 function AppHeader(props){
+
+  let history = useHistory()
+
   const {currentUser, SignOut} = props
   return(
-    <div className="header">
+    <div style={{position:'relative'}} className="header">
       <div className="navbar navbar-light bg-header">
-        <div className="container-fluid d-flex align-items-center">
-          <h5 className="navbar-brand header-title">
+        <div className="container-fluid align-items-center">
+          <h6 className="navbar-brand header-title">
             My Travel Diary
-          </h5>
+          </h6>
           {currentUser ? 
-          <Link to="/login">
-            <button onClick={() => SignOut()} className="btn btn-primary border-0 shadow-none">LOG OUT</button>
-          </Link>
+            <button onClick={() => {
+              SignOut()
+              history.push('/login')
+            }} className="btn btn-primary border-0 shadow-none">LOG OUT</button>
           :  
           <Link to="/login">
             <button className="btn btn-primary border-0 shadow-none">SIGN IN</button>
@@ -30,11 +34,20 @@ function AppHeader(props){
 
 export default function Home(){
 
+    // current logged in user
     const {currentUser, setCurrentUser} = useContext(AuthContext)
 
+    // pins saved by user
     const [savedPins, setSavedPins] = useState([])
   
+    // User prompt message
     const [alert, setAlert] = useState()
+
+    // triggers when pin form data is submitted
+    const [loading, setLoading] = useState(false)
+
+    // triggers popup for any saved pin
+    const [showPopup, setShowPopup] = useState(null)
 
     // State data for creating a new pin
     const [newPlace, setNewPlace] = useState()
@@ -67,16 +80,16 @@ export default function Home(){
         .then(data => {
           const {pins, success, message} = data
           if(success){
-            setAlert({'message': message, 'success':success})
-            console.log('Retrieved saved pins. ')
+            // setAlert({'message': message, 'success':success})
+            // console.log('Retrieved saved pins. ')
             setSavedPins(pins)
           }
           else{
             setAlert({'message': message, 'success':success})
-            console.log('There was a problem getting data from the server. Try again after some time.')
+            // console.log('There was a problem getting data from the server. Try again after some time.')
           }
         }).catch(err => {
-          console.log(err.message)
+          // console.log(err.message)
           setAlert({'message':'There was a problem getting data from the server. Try again after some time.', success:false})
         })
       }
@@ -84,6 +97,7 @@ export default function Home(){
 
 
     const SubmitPinData = e => {
+      setLoading(true)
       e.preventDefault()
       Axios({
         method:'POST',
@@ -101,30 +115,38 @@ export default function Home(){
         const {pin, success, message} = data
         if(success){
           setAlert({'message': message, 'success':success})
-          console.log('Saved pin')
+          // console.log('Saved pin')
           setSavedPins([...savedPins, pin])
+          setLoading(false)
+          setNewPlace()
+          setPlaceName()
+          setMemories()
         }
         else{
           setAlert({'message': message, 'success':success})
-          console.log('There was a problem getting data from the server. Try again after some time.')
+          setLoading(false)
+          // console.log('There was a problem getting data from the server. Try again after some time.')
         }
       }).catch(err => {
-        console.log(err.message)
+        setLoading(false)
+        // console.log(err.message)
         setAlert({'message':'There was a problem getting data from the server. Try again after some time.', success:false})
       })
     }
 
 
     const SignOut = () => {
-      localStorage.removeItem('user')
+      if(localStorage.getItem('uid')){
+        localStorage.removeItem('uid')
+      }
       setCurrentUser(null);
+      // console.log('Signed out')
     }
 
     
     return(
-        <>
-      <AppHeader currentUser={currentUser} SignOut={SignOut}/>
    <div className="map">
+   <AppHeader currentUser={currentUser} SignOut={SignOut}/>
    <ReactMapGL
     {...viewport}
     mapboxApiAccessToken={process.env.REACT_APP_MAPBOX}
@@ -132,65 +154,78 @@ export default function Home(){
     mapStyle="mapbox://styles/saket2000/ckogj12k43r0r17ol04ixk9ye"
     onDblClick={currentUser && handleAddClick}
       > 
-      {/* <Marker
-        latitude={40.712}
-        longitude={-74.006}
-        offsetLeft={-20}
-        offsetTop={-10}
-      >
-        <RoomIcon style={{color:'slateblue', fontSize:viewport.zoom*5}}/>
-      </Marker>
-       {showPopup && <Popup
-       latitude={40.712}
-       longitude={-74.006}
-        closeButton={true}
-        closeOnClick={false}
-        onClose={() => togglePopup(false)}
-        anchor="bottom" >
-        <div className="card-map">
-          <div className="place">
-            <div className="small text-muted label">Place</div>
-            <h6>New York City</h6>
-          </div>
-          <div className="description">
-            <div className="small text-muted label">When did you visit?</div>
-            <h6>Never</h6>
-          </div>
-          <div className="description">
-            <div className="small text-muted label">Experiences/memories/future plans for this place</div>
-            <h6>Would love to see New York if I ever get the opportunity in future.</h6>
-          </div>
-        </div>
-      </Popup>} */}
+      {savedPins && savedPins.map((pin, index) => {
+        return(
+          <>
+            <Marker
+              key={index}
+              latitude={pin.lat}
+              longitude={pin.long}
+              offsetLeft={-3.5 * viewport.zoom}
+              offsetTop={-7 * viewport.zoom}
+              on
+            >
+              <RoomIcon onClick={() => setShowPopup(pin)} style={{color:'tomato', fontSize:viewport.zoom*7}}/>
+            </Marker>
+            {showPopup && <Popup
+              latitude = {showPopup.lat}
+              longitude = {showPopup.long}
+              closeButton={true}
+              closeOnClick={false}
+              onClose={() => setShowPopup(null)}
+              anchor="top"
+            >
+              <div className="card-map">
+              <div className="place">
+                <div style={{color:'tomato'}} className="small label">Place</div>
+                  <h6>{showPopup.place}</h6>
+                </div>
+                <div className="description">
+                  <div style={{color:'tomato'}} className="small label">Experiences/memories/future plans for this place</div>
+                  <h6>{showPopup.memories}</h6>
+                </div>
+              </div>  
+            </Popup>}
+          </>
+        )
+      })}
 
       {newPlace && (
         <>
         <Marker
           latitude={newPlace.lat}
           longitude= {newPlace.long}
+          offsetLeft={-3.5 * viewport.zoom}
+          offsetTop={-7 * viewport.zoom}
         >
-          <RoomIcon style={{color:'tomato', cursor:'pointer', fontSize:viewport.zoom*5}} />
+          <RoomIcon style={{color:'tomato', cursor:'pointer', fontSize:viewport.zoom*7}} />
         </Marker>
         <Popup
           latitude={newPlace.lat}
           longitude={newPlace.long}
           closeButton={true}
           closeOnClick={false}
-          onClose={() => setNewPlace(null)}
-          anchor="left"
+          onClose={() => {
+            setNewPlace(null)
+            setPlaceName()
+            setMemories()
+          }}
+          anchor="top"
         >
           <div className="card-map">
             <form className="p-1" onSubmit={SubmitPinData}>
                 <div className="mb-2">
-                  <label for="inputPlaceName" className="form-label small text-muted label">Place</label>
-                  <input type="text" value={placeName} onChange={e => setPlaceName(e.target.value)} class="form-control form-control-sm border-0 shadow-none outline-none semibold-text" id="inputPlaceName" placeholder="Name of the place"></input>
+                  <label style={{color:'tomato'}} for="inputPlaceName" className="form-label small label">Place</label>
+                  <input type="text" value={placeName} onChange={e => setPlaceName(e.target.value)} class="form-control form-control-sm border-0 shadow-none outline-none semibold-text" id="inputPlaceName" placeholder="Name of the place" required></input>
                 </div>
                 <div className="mb-1">
-                  <label for="inputMemories" className="form-label small text-muted label">Memories/Experiences/Future plans</label>
-                  <textarea rows="5" value={memories} onChange={e => setMemories(e.target.value)} class="form-control form-control-sm shadow-none border-0 outline-none semibold-text" id="inputMemories" placeholder="Funny incidents you recall from this place. Or maybe something special and memorable that you are going to hold on to forever."></textarea>
+                  <label style={{color:'tomato'}} for="inputMemories" className="form-label small label">Memories/Experiences/Future plans</label>
+                  <textarea rows="5" value={memories} onChange={e => setMemories(e.target.value)} class="form-control form-control-sm shadow-none border-0 outline-none semibold-text" id="inputMemories" placeholder="Funny incidents you recall from this place. Or perhaps something special or memorable that you are going to hold on to forever." required></textarea>
                 </div>
                 <div className="mt-2">
-                  <button style={{backgroundColor:'tomato'}} className="btn btn-sm shadow-none border- outline-none text-white">ADD LOCATION</button>
+                  {loading===false ? <button style={{backgroundColor:'tomato'}} className="btn btn-sm shadow-none border-0 outline-none text-white">ADD PIN</button>
+                  :   <button style={{backgroundColor:'tomato'}} className="btn btn-sm shadow-none border-0 outline-none text-white" disabled>ADDING PIN</button>
+                }
                 </div>
             </form>
           </div>
@@ -198,7 +233,21 @@ export default function Home(){
         </>
       )}
     </ReactMapGL>
+
+    {alert && <div style={{position:'absolute', bottom:20, left:0, right:0, marginLeft:0, marginRight:0 }}>
+    <div className="mx-auto col-10 col-sm-4">
+    {alert.success===false ? <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>{alert.message}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setAlert()}></button>
+    </div>
+    :   <div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>{alert.message}</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setAlert()}></button>
+  </div>
+  }
+  </div>
+    </div>}
+
    </div>
-   </>
     )
 }

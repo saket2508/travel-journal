@@ -96,7 +96,7 @@ export default function SignUp(props){
                             <div id="emailHelp" class="form-text">Must be 8-20 characters long</div>
                         </div>
                          {loading===false ? <button type="submit" class="btn btn-primary shadow-none outline-none border-0">Sign up</button>
-                            : <button className="btn shadow-none text-white outline-none border-0 btn-disabled disabled">Loading...</button>
+                            : <button className="btn shadow-none text-white outline-none border-0 btn-disabled" disabled>Loading...</button>
                         }
 
                         <div className="small text-muted mt-3">Already have an account?{" "}

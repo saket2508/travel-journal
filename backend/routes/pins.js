@@ -6,7 +6,7 @@ router.post("/", async (req, res) => {
   const newPin = new Pin(req.body);
   try {
     const savedPin = await newPin.save();
-    res.status(200).json({pin: savedPin, success:true, message:"Pin created successfully"});
+    res.status(200).json({pin: savedPin, success:true, message:"Saved Pin"});
   } catch (err) {
     res.status(500).json({err: err, success:false, message:"Error creating pin"});
   }
