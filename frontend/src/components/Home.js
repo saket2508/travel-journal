@@ -37,8 +37,11 @@ function AppHeader(props){
   const {currentUser, SignOut, handleClickOpen} = props
   return(
     <div style={{position:'relative'}} className="header">
-      <div className="navbar navbar-light bg-header">
+      <div className="navbar fixed-top navbar-light bg-header">
         <div className="container-fluid">
+
+          <div className="w-100" style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            
           <h6 className="navbar-brand header-title">
             My Travel Journal
           </h6>
@@ -59,6 +62,7 @@ function AppHeader(props){
           </Link>}
               </div>
             </div>
+          </div>
           
         </div>
       </div>
@@ -90,12 +94,12 @@ function InfoModal(props){
           </li>
           <li>
             <p className="lead">
-              You can explore any location on the map and add a pin to it by double-clicking, and then describe that place by writing about your favorite things, experiences or memories from your time there.
+              You can explore any location on the map and add a pin to it by double-clicking, and then describe the place by writing about your favorite things, experiences or memories from your time there.
             </p>
           </li>
           <li>
             <p className="lead">
-              When you've create a pin, clicking on it will show you what you wrote about the place. 
+              When you've created a pin, clicking on it will show you what you wrote about the place. 
             </p>
           </li>
         </ul>
@@ -119,9 +123,6 @@ export default function Home(){
 
     // pins saved by user
     const [savedPins, setSavedPins] = useState([])
-  
-    // User prompt message
-    const [alert, setAlert] = useState()
 
     // triggers when pin form data is submitted
     const [loading, setLoading] = useState(false)
@@ -147,19 +148,19 @@ export default function Home(){
   
 
     const [viewport, setViewport] = useState({
-        width: "100vw",
-        height: "100vh",
-        latitude: 0,
-        longitude: 0,
-        zoom: 2
-      });
+      width: "100vw",
+      height: "100vh",
+      latitude: 39,
+      longitude: 44,
+      zoom: 3
+    });
 
     const navControlStyle= {
         right: 10,
         left:0,
         top:0,
         bottom: 10
-      }
+    }
 
     const handleAddClick = (e) => {
       const [longitude, latitude] = e.lngLat;
@@ -189,11 +190,10 @@ export default function Home(){
           setViewport({
             width: "100vw",
             height: "100vh",
-            latitude: 40.7128,
-            longitude: -74.0060,
-            zoom: 8
+            latitude: 39,
+            longitude: 44,
+            zoom: 3
           })
-          // console.log('could not get location')
         })
       }
       else{
@@ -201,9 +201,9 @@ export default function Home(){
           setViewport({
             width: "100vw",
             height: "100vh",
-            latitude: 40.7128,
-            longitude: -74.0060,
-            zoom: 8
+            latitude: 39,
+            longitude: 44,
+            zoom: 3
           })
         console.log('Location access denied')
       }
@@ -222,10 +222,10 @@ export default function Home(){
             setSavedPins(pins)
           }
           else{
-            setAlert({'message': message, 'success':success})
+            console.log({'message': message, 'success':success})
           }
         }).catch(err => {
-          setAlert({'message':'There was a problem getting data from the server. Try again after some time.', success:false})
+          console.log({'message':'There was a problem getting data from the server. Try again after some time.', success:false})
         })
       }
     }, [currentUser])
@@ -249,8 +249,6 @@ export default function Home(){
       .then(data => {
         const {pin, success, message} = data
         if(success){
-          setAlert({'message': message, 'success':success})
-          // console.log('Saved pin')
           setSavedPins([...savedPins, pin])
           setLoading(false)
           setNewPlace()
@@ -258,12 +256,12 @@ export default function Home(){
           setMemories()
         }
         else{
-          setAlert({'message': message, 'success':success})
+          console.log({'message': message, 'success':success})
           setLoading(false)
         }
       }).catch(err => {
         setLoading(false)
-        setAlert({'message':'There was a problem getting data from the server. Try again after some time.', success:false})
+        console.log({'message':'There was a problem getting data from the server. Try again after some time.', success:false})
       })
     }
 
@@ -309,9 +307,9 @@ export default function Home(){
         anchor="top"
       >
         <div className="card-map">
-          <div className="semibold-text">
+          <small className="mt-1" style={{fontWeight:'600'}}>
             You are here.
-          </div>
+          </small>
         </div>
       </Popup>}
       </>
@@ -326,7 +324,7 @@ export default function Home(){
               offsetLeft={-3.5 * viewport.zoom}
               offsetTop={-7 * viewport.zoom}
             >
-              <RoomIcon onClick={() => setShowPopup(pin)} style={{color:'tomato', fontSize:viewport.zoom*7}}/>
+              <RoomTwoToneIcon onClick={() => setShowPopup(pin)} style={{color:'tomato', fontSize:viewport.zoom*7}}/>
             </Marker>
             {showPopup && <Popup
               latitude = {showPopup.lat}
@@ -359,7 +357,7 @@ export default function Home(){
           offsetLeft={-3.5 * viewport.zoom}
           offsetTop={-7 * viewport.zoom}
         >
-          <RoomIcon style={{color:'tomato', cursor:'pointer', fontSize:viewport.zoom*7}} />
+          <RoomTwoToneIcon style={{color:'tomato', cursor:'pointer', fontSize:viewport.zoom*7}} />
         </Marker>
         <Popup
           latitude={newPlace.lat}
@@ -394,20 +392,6 @@ export default function Home(){
         </>
       )}
     </ReactMapGL>
-    {alert && <div style={{position:'absolute', bottom:20, left:0, right:0, marginLeft:0, marginRight:0 }}>
-    <div className="mx-auto col-10 col-sm-4">
-    {alert.success===false ? <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      <strong>{alert.message}</strong>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setAlert()}></button>
-    </div>
-    :   <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>{alert.message}</strong>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={() => setAlert()}></button>
-  </div>
-  }
-  </div>
-    </div>}
-
    </div>
     )
 }
