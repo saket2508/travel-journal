@@ -33,7 +33,7 @@ export default function SignUp(props){
                 email:user["email"]
             },
             withCredentials:false,
-            url:'/api/users/register'
+            url:'https://travel-journal-server.herokuapp.com/api/users/register'
         }).then(res => res.data)
         .then(data => {
             const {user, message, success} = data

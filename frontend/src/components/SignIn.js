@@ -38,7 +38,7 @@ export default function SignIn(props){
                 password:user["password"]
             },
             withCredentials:false,
-            url:'/api/users/login'
+            url:'https://travel-journal-server.herokuapp.com/api/users/login'
         }).then(res => res.data)
         .then(data => {
             const {user, message, success} = data

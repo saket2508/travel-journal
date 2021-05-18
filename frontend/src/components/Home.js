@@ -213,7 +213,7 @@ export default function Home(){
       if(currentUser){
         Axios({
           method:'GET',
-          url:`/api/pins/${currentUser}`,
+          url:`https://travel-journal-server.herokuapp.com/api/pins/${currentUser}`,
           withCredentials:false,
         }).then(res => res.data)
         .then(data => {
@@ -236,7 +236,7 @@ export default function Home(){
       e.preventDefault()
       Axios({
         method:'POST',
-        url:"/api/pins",
+        url:"https://travel-journal-server.herokuapp.com/api/pins",
         withCredentials:false,
         data:{
           user:currentUser,
