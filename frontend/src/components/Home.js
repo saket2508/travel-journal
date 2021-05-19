@@ -24,10 +24,10 @@ const useStyles = makeStyles((theme) => ({
     },
     fontFamily: ['Poppins', 'sans-serif'].join(','),
   },
-  large: {
-    width: theme.spacing(5),
-    height: theme.spacing(5),
-  },
+  avi:{
+    width: theme.spacing(6),
+    height: theme.spacing(6)
+  }
 }));
 
 function AppHeader(props){
@@ -64,7 +64,7 @@ function AppHeader(props){
               </div>
             </div>
           </div>
-          
+ 
         </div>
       </div>
     </div>
@@ -271,6 +271,8 @@ export default function Home(){
       setCurrentUser(null);
     }
 
+
+    const classes = useStyles()
     
     return(
    <div className="map">
@@ -304,15 +306,23 @@ export default function Home(){
         onClose={() => setCurrPopup(false)}
         anchor="top"
       >
-        <div className="card-map">
+        {currentUser ? <div className="card-map">
           <div className="mt-1">
-            <Avatar alt="profile-avi" src="https://share-cdn.picrew.me/shareImg/org/202105/696219_9e5fhUk0.png"/>
+            <Avatar className={classes.avi} alt="profile-avi" src="https://share-cdn.picrew.me/shareImg/org/202105/696219_9e5fhUk0.png"/>
           </div>
           <small style={{fontWeight:'600', color:'tomato'}} className="mt-1">{currentUser.username && currentUser.username}</small>
           <h6 style={{fontWeight:'300'}} className="mt-1">
-              Welcome, {currentUser.username && currentUser.username}. You are here.
+              Welcome, {currentUser.username && currentUser.username}. You are here. To create a pin, just double click on any location and then you can describe your memories, experiences or favorite things about that place.
           </h6>
-        </div>
+        </div> :  <div className="card-map">
+          <div className="mt-1">
+            <Avatar className={classes.avi} alt="profile-avi" src="https://share-cdn.picrew.me/shareImg/org/202105/696219_9e5fhUk0.png"/>
+          </div>
+          <small style={{fontWeight:'600', color:'tomato'}} className="mt-1">You</small>
+            <h6 style={{fontWeight:'300'}} className="mt-1">
+                Sign in to set pins on all the places you've traveled to before the pandemic.
+            </h6>
+        </div>}
       </Popup>}
       </>
       }
