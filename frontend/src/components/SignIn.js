@@ -44,7 +44,7 @@ export default function SignIn(props){
             const {user, username, message, success} = data
             if(success===true){
                 setAlertMessage({'message':message, 'success':success})
-                setCurrentUser(user)
+                setCurrentUser({'username': username, 'uid': user})
                 if(saveCred===true){
                     localStorage.setItem('uid', user)
                     localStorage.setItem('username', username)

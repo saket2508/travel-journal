@@ -305,13 +305,13 @@ export default function Home(){
         anchor="top"
       >
         <div className="card-map">
-          <div className="mt-1 d-flex">
+          <div className="mt-1">
             <Avatar alt="profile-avi" src="https://share-cdn.picrew.me/shareImg/org/202105/696219_9e5fhUk0.png"/>
-            <small className="pb-1">{currentUser.username}</small>
           </div>
-          <small className="mt-1" style={{fontWeight:'600'}}>
-              Welcome, {currentUser.username}. You are here.
-          </small>
+          <small style={{fontWeight:'600', color:'tomato'}} className="mt-1">{currentUser.username && currentUser.username}</small>
+          <h6 style={{fontWeight:'300'}} className="mt-1">
+              Welcome, {currentUser.username && currentUser.username}. You are here.
+          </h6>
         </div>
       </Popup>}
       </>
@@ -338,12 +338,12 @@ export default function Home(){
             >
               <div className="card-map">
               <div className="place">
-                <div style={{color:'tomato'}} className="small label">Place</div>
-                  <h6>{showPopup.place}</h6>
+                <small style={{fontWeight:'600', color:'tomato'}}>Place</small>
+                <h6 style={{fontWeight:'300'}}>{showPopup.place}</h6>
                 </div>
                 <div className="description">
-                  <div style={{color:'tomato'}} className="small label">Experiences/memories/future plans for this place</div>
-                  <h6>{showPopup.memories}</h6>
+                  <small style={{fontWeight:'600', color:'tomato'}}>Experiences/memories/future plans for this place</small>
+                  <h6 style={{fontWeight:'300'}}>{showPopup.memories}</h6>
                 </div>
               </div>  
             </Popup>}
@@ -376,11 +376,11 @@ export default function Home(){
           <div className="card-map">
             <form className="p-1" onSubmit={SubmitPinData}>
                 <div className="mb-2">
-                  <label style={{color:'tomato'}} for="inputPlaceName" className="form-label small label">Place</label>
+                  <label style={{color:'tomato', fontWeight:'600'}} for="inputPlaceName" className="form-label small">Place</label>
                   <input type="text" value={placeName} onChange={e => setPlaceName(e.target.value)} class="form-control form-control-sm border-0 shadow-none outline-none semibold-text" id="inputPlaceName" placeholder="Name of the place" required></input>
                 </div>
                 <div className="mb-1">
-                  <label style={{color:'tomato'}} for="inputMemories" className="form-label small label">Memories/Experiences/Future plans</label>
+                  <label style={{color:'tomato', fontWeight:'600'}} for="inputMemories" className="form-label small">Memories/Experiences/Future plans</label>
                   <textarea rows="5" value={memories} onChange={e => setMemories(e.target.value)} class="form-control form-control-sm shadow-none border-0 outline-none semibold-text" id="inputMemories" placeholder="Funny incidents you recall from this place. Or perhaps something special or memorable that you are going to hold on to forever." required></textarea>
                 </div>
                 <div className="mt-2">

@@ -40,8 +40,7 @@ export default function SignUp(props){
             
             if(success){
                 setAlertMessage({'message':message, 'success':success})
-
-                setCurrentUser(user)
+                setCurrentUser({'username': username, 'uid': user})
                 localStorage.setItem('uid', user)
                 localStorage.setItem('username', username)
                 
