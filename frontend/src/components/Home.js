@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import ReactMapGL, { Marker, Popup, NavigationControl } from 'react-map-gl';
+import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import { Link, useHistory } from "react-router-dom";
-import RoomIcon from '@material-ui/icons/Room';
 import Axios from "axios";
 import { makeStyles } from '@material-ui/core/styles';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
@@ -14,6 +13,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import RoomTwoToneIcon from '@material-ui/icons/RoomTwoTone';
 import  {AuthContext}  from "../context/AuthContext";
 import indigo from '@material-ui/core/colors/indigo';
+import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       marginLeft: theme.spacing(0.50),
     },
+    fontFamily: ['Poppins', 'sans-serif'].join(','),
   },
   large: {
     width: theme.spacing(5),
@@ -105,7 +106,7 @@ function InfoModal(props){
         </ul>
         </DialogContent>
         <DialogActions>
-          <button onClick={handleClose} className="btn btn-primary border-0 shadow-none">Close</button>
+          <button onClick={handleClose} className="btn btn-primary border-0 shadow-none">CLOSE</button>
         </DialogActions>
       </Dialog>
   )
@@ -155,13 +156,6 @@ export default function Home(){
       zoom: 3
     });
 
-    const navControlStyle= {
-        right: 10,
-        left:0,
-        top:0,
-        bottom: 10
-    }
-
     const handleAddClick = (e) => {
       const [longitude, latitude] = e.lngLat;
       setNewPlace({
@@ -170,7 +164,8 @@ export default function Home(){
       });
     };
 
-    useEffect(async() => {
+    useEffect(() => {
+    async function getLocation(){
       if("geolocation" in navigator){
         navigator.geolocation.getCurrentPosition(function(position){
           setLocationPermitted(true)
@@ -207,13 +202,15 @@ export default function Home(){
           })
         console.log('Location access denied')
       }
+    }
+    getLocation()
     }, [])
 
     useEffect(() => {
       if(currentUser){
         Axios({
           method:'GET',
-          url:`https://travel-journal-server.herokuapp.com/api/pins/${currentUser}`,
+          url:`https://travel-journal-server.herokuapp.com/api/pins/${currentUser.uid}`,
           withCredentials:false,
         }).then(res => res.data)
         .then(data => {
@@ -239,7 +236,7 @@ export default function Home(){
         url:"https://travel-journal-server.herokuapp.com/api/pins",
         withCredentials:false,
         data:{
-          user:currentUser,
+          user:currentUser.uid,
           place:placeName,
           lat:newPlace.lat,
           long: newPlace.long,
@@ -267,8 +264,9 @@ export default function Home(){
 
 
     const SignOut = () => {
-      if(localStorage.getItem('uid')){
+      if(localStorage.getItem('uid') && localStorage.getItem('username')){
         localStorage.removeItem('uid')
+        localStorage.removeItem('username')
       }
       setCurrentUser(null);
     }
@@ -290,10 +288,10 @@ export default function Home(){
       {currLocation && 
       <>
       <Marker
-      latitude={currLocation.lat}
-      longitude={currLocation.long}
-      offsetLeft={-3.5 * viewport.zoom}
-      offsetTop={-7 * viewport.zoom}
+        latitude={currLocation.lat}
+        longitude={currLocation.long}
+        offsetLeft={-3.5 * viewport.zoom}
+        offsetTop={-7 * viewport.zoom}
       >
         <RoomTwoToneIcon onClick={() => setCurrPopup(true)} style={{color:indigo[500], fontSize:viewport.zoom*7}}/>
       </Marker>
@@ -307,8 +305,12 @@ export default function Home(){
         anchor="top"
       >
         <div className="card-map">
+          <div className="mt-1 d-flex">
+            <Avatar alt="profile-avi" src="https://share-cdn.picrew.me/shareImg/org/202105/696219_9e5fhUk0.png"/>
+            <small className="pb-1">{currentUser.username}</small>
+          </div>
           <small className="mt-1" style={{fontWeight:'600'}}>
-            You are here.
+              Welcome, {currentUser.username}. You are here.
           </small>
         </div>
       </Popup>}

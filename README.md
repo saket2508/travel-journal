@@ -1,6 +1,6 @@
 ## MERN Travel Journal
 
-- This is a really fun site for those of you who miss travelling. You can go over all the places you have been to by adding pins to the locations on the maps.
+- This is a really fun site for those of you who miss travelling. You can go over all the places you have been to so far by adding pins to locations on the maps.
 
 - You can also write about your memories, travel experiences or things you like about a place when adding a pin.
 

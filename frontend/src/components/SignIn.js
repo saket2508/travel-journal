@@ -41,12 +41,13 @@ export default function SignIn(props){
             url:'https://travel-journal-server.herokuapp.com/api/users/login'
         }).then(res => res.data)
         .then(data => {
-            const {user, message, success} = data
+            const {user, username, message, success} = data
             if(success===true){
                 setAlertMessage({'message':message, 'success':success})
                 setCurrentUser(user)
                 if(saveCred===true){
                     localStorage.setItem('uid', user)
+                    localStorage.setItem('username', username)
                 }
             
                 timerID = setTimeout(() => {

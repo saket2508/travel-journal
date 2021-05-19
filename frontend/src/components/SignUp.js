@@ -36,13 +36,14 @@ export default function SignUp(props){
             url:'https://travel-journal-server.herokuapp.com/api/users/register'
         }).then(res => res.data)
         .then(data => {
-            const {user, message, success} = data
+            const {user, username, message, success} = data
             
             if(success){
                 setAlertMessage({'message':message, 'success':success})
 
                 setCurrentUser(user)
                 localStorage.setItem('uid', user)
+                localStorage.setItem('username', username)
                 
                 timer = setTimeout(() => {
                     props.history.push('/');
