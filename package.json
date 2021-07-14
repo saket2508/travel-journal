@@ -7,7 +7,7 @@
     "start": "node backend\\server.js",
     "server": "nodemon backend\\server.js",
     "client": "npm start --prefix frontend",
-    "deploy": "git subtree push --prefix server heroku master",
+    "deploy": "git subtree push --prefix backend heroku master",
     "logs": "heroku logs --tail",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
