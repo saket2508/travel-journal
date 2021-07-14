@@ -5,10 +5,12 @@ import App from './App';
 import AuthProvider from "./context/AuthContext"
 import reportWebVitals from './reportWebVitals';
 
+
+
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
-      <App/>
+        <App/>
     </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')

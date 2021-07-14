@@ -1,0 +1,28 @@
+{
+  "name": "travel-app",
+  "version": "1.0.0",
+  "description": "MERN Travel Journal",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend\\server.js",
+    "server": "nodemon backend\\server.js",
+    "client": "npm start --prefix frontend",
+    "deploy": "git subtree push --prefix server heroku master",
+    "logs": "heroku logs --tail",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saket2508/travel-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saket2508/travel-app/issues"
+  },
+  "homepage": "https://github.com/saket2508/travel-app#readme",
+  "dependencies": {
+    "concurrently": "^6.2.0"
+  }
+}
