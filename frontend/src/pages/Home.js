@@ -71,7 +71,7 @@ export default function Home() {
                 width="100vw" 
                 height="100vh"
                 {...viewport}
-                mapboxApiAccessToken={process.env.REACT_APP_MAPBOX}
+                mapboxApiAccessToken='pk.eyJ1Ijoic2FrZXQyMDAwIiwiYSI6ImNrb2doc2hjcTB3ZmkydXIwcXljeWEyOGoifQ.bKsUSuYbHZ9z8cC5_P_MBw'
                 onViewportChange={nextViewport => setViewport(nextViewport)}
                 mapStyle="mapbox://styles/saket2000/ckogj12k43r0r17ol04ixk9ye"
                 onDblClick={currentUser && handleAddClick}
