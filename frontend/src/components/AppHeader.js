@@ -27,7 +27,7 @@ export default function AppHeader(props) {
 
     const SignOut = async() => {
       try {
-        const res = await axios.get('https://travel-journal-server.herokuapp.com/api/users/logout', { withCredentials: true })
+        const res = await axios.get('/api/users/logout', { withCredentials: true })
         setIsAuthenticated(true)
         window.location.pathname = '/login'
       } catch (error) {

@@ -11,7 +11,7 @@ passport.use(new GoogleStrategy({
         passReqToCallback: true,
     },
     async function(req, res, accessToken, refreshToken, profile, done){
-        const { name, emails, picture } = profile
+        const { name, emails } = profile
         let user_name = name.givenName
         let user_email = emails[0].value
         let user = null

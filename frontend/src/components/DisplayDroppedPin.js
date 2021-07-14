@@ -17,7 +17,7 @@ export default function DisplayDroppedPin(props) {
         setLoading(true)
         e.preventDefault()
         axios.post(
-            'http://travel-journal-server.herokuapp.com/api/pins/add',
+            '/api/pins/add',
             {
                 place: placeName,
                 lat: newPlace.lat,

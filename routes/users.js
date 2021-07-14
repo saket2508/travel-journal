@@ -17,7 +17,7 @@ router.get("/auth", authorize, (req, res) => {
     res.json(true);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send({mesage: "Server error"});
+    res.status(500).send({error: "Server error", success: false});
   }
 })
 
@@ -32,7 +32,7 @@ router.get("/info", authorize, async (req, res) => {
     }
   } catch (err) {
     console.error(err.message);
-    res.status(500).send({mesage: "Server error"});
+    res.status(500).send({error: "Server error", success: false});
   }
 })
 
@@ -42,7 +42,7 @@ router.post("/register", validate ,async (req, res) => {
     const { username, email, password } = req.body
     const userExists = await User.findOne({email: email})
     if(userExists){
-      res.status(401).json({message:"User already exists", success:false})
+      res.status(401).json({error:"User already exists", success:false})
     }
     else{
       //generate new password
@@ -67,7 +67,7 @@ router.post("/register", validate ,async (req, res) => {
     }
   } catch (err) {
       console.log(err)
-      res.status(500).json({error: err, message:"Server Error", success: false})
+      res.status(500).json({ error:"Server Error", success: false})
   }
 })
 
@@ -78,7 +78,7 @@ router.post("/login", validate, async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({ email: email })
     if(!user){
-      res.status(401).json({message: "Incorrect username or password", success: false})
+      res.status(401).json({error: "Incorrect username or password", success: false})
     }
     //validate password
     const validPassword = await bcrypt.compare(
@@ -86,7 +86,7 @@ router.post("/login", validate, async (req, res) => {
       user.password
     )
     if(!validPassword){
-      res.status(401).json({message: "Incorrect username or password", success: false})
+      res.status(401).json({error: "Incorrect username or password", success: false})
     }
     // Generate JWT token and store it in an HTTP only cookie
     const token = jwtGenerator(user._id)
@@ -95,7 +95,7 @@ router.post("/login", validate, async (req, res) => {
     res.status(200).json({ message:"User signed in", success: true})
   } catch (err) {
     console.error(err.message)
-    res.status(500).json({error: err, message:"Server Error", success: false})
+    res.status(500).json({error:"Server Error", success: false})
   }
 })
 
@@ -104,7 +104,7 @@ router.get('/logout', async(req, res) => {
     res.cookie('travel_journal_jwt', '', { maxAge: 1 })
     res.status(201).json("User signed out")
   } catch (error) {
-    res.status(500).json("Server Error")
+    res.status(500).json({error: "Server Error", success: false})
   }
 })
 

@@ -4,12 +4,13 @@
   "description": "MERN Travel Journal",
   "main": "server.js",
   "scripts": {
-    "start": "node backend\\server.js",
-    "server": "nodemon backend\\server.js",
+    "start": "node server.js",
+    "server": "nodemon server.js",
     "client": "npm start --prefix frontend",
-    "deploy": "git subtree push --prefix backend heroku master",
+    "deploy": "git push heroku master",
     "logs": "heroku logs --tail",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,16 @@
   },
   "homepage": "https://github.com/saket2508/travel-app#readme",
   "dependencies": {
-    "concurrently": "^6.2.0"
+    "bcrypt": "^5.0.1",
+    "concurrently": "^6.2.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.13.2",
+    "nodemon": "^2.0.12",
+    "passport": "^0.4.1",
+    "passport-google-oauth2": "^0.2.0"
   }
 }

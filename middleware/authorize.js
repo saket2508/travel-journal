@@ -4,7 +4,7 @@ require('dotenv').config()
 module.exports = async (req, res, next) => {
     const token = req.cookies.travel_journal_jwt
     if(!token){
-        return res.status(403).json({message: "Authorization denied", success: false})
+        return res.status(403).json({error: "Authorization denied", success: false})
     }
     try{
         const verify = jwt.verify(token, process.env.jwtSecret)
@@ -12,6 +12,6 @@ module.exports = async (req, res, next) => {
         next()
     } catch(err){
         console.error(err.message)
-        res.status(401).json({message: "Token invalid", success: false})
+        res.status(401).json({error: "Token invalid", success: false})
     }
 }

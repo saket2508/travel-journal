@@ -18,7 +18,7 @@ router.post("/add", authorize, async (req, res) => {
     const savedPin = await newPin.save();
     res.status(200).json({pin: savedPin, success:true, message:"Saved Pin"});
   } catch (err) {
-    res.status(500).json({err: err, success:false, message:"Server Error"});
+    res.status(500).json({ success:false, error:"Server Error"});
   }
 });
 
@@ -29,7 +29,7 @@ router.get("/", authorize, async (req, res) => {
     const pins = await Pin.find({user: user_id});
     res.status(200).json({pins: pins, success:true, message:"Pins retrieved"});
   } catch (err) {
-    res.status(500).json({err: err, success:false, message:"Server Error"});
+    res.status(500).json({success:false, error:"Server Error"});
   }
 });
 

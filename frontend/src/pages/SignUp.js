@@ -6,7 +6,7 @@ import { AuthContext } from '../context/AuthContext'
 export default function SignUp(props) {
 
     const GOOGLE_OAUTH_URI = process.env.NODE_ENV === "production"
-        ? 'https://travel-journal-server.herokuapp.com/api/oauth' 
+        ? 'https://merntraveljournal.herokuapp.com/api/oauth' 
         : 'http://localhost:5000/api/oauth'
 
     const [user, setUser] = useState({"username":"", "password":"", "email":""})
@@ -30,7 +30,7 @@ export default function SignUp(props) {
         e.preventDefault()
         setLoading(true)
         try {
-            const res = await axios.post('https://travel-journal-server.herokuapp.com/api/users/register', { 
+            const res = await axios.post('/api/users/register', { 
                 username: user.username,
                 email: user.email,
                 password: user.password
@@ -51,7 +51,7 @@ export default function SignUp(props) {
         } catch (err) {
             console.log(err.message)
             setLoading(false)
-            if(err.response){
+            if(err.response.data){
                 const { error } = err.response.data
                 setAlertMessage({success: false, message: error})
             } else{

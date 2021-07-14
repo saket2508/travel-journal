@@ -1,3 +1,5 @@
+require('dotenv').config()
+const path = require('path')
 const express = require('express')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
@@ -9,7 +11,7 @@ require('./oauth2/googleStrategy')
 
 const maxAge = 7*24*3600*1000
 const APP_REDIRECT_URI = process.env.NODE_ENV === "production" 
-? 'https://mern-travel-journal.netlify.app' 
+? 'https://merntraveljournal.herokuapp.com' 
 : 'http://localhost:3000'
 
 const app = express()
@@ -59,9 +61,16 @@ app.get('/api/oauth/callback', passport.authenticate(
     }
 })
 
-app.get('/', (req, res) => { 
-    res.send('Backend server running')
-})
+// DEPLOY TO HEROKU
+// Serve static access if in production
+if(process.env.NODE_ENV === "production"){
+    // Set a static folder
+    app.use(express.static('frontend/build'));
+    app.get('*', (req, res) => {
+      res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+    })
+}
+
     
 app.listen(port, () => {
     console.log('Backend server is running.')
